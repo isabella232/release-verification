@@ -1,0 +1,42 @@
+#!/bin/sh
+
+boxCount=10
+memberBox=0
+members=10
+clients=50
+duration=48h
+ee=false
+
+gcArgs="-verbose:gc -Xloggc:verbosegc.log"
+gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime"
+
+memberHeapSZ=4G
+monitorSec=10
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.health.monitoring.level=NOISY -Dhazelcast.health.monitoring.delay.seconds=$monitorSec"
+memberJvmArgs="$memberJvmArgs -Xmx$memberHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+memberJvmArgs="$memberJvmArgs $gcArgs"
+
+clientHeapSZ=1G
+
+clientJvmArgs="$clientJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+clientJvmArgs="$clientJvmArgs -Xmx$clientHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+clientJvmArgs="$clientJvmArgs $gcArgs"
+
+coordinator --dedicatedMemberMachines ${memberBox} \
+	    --memberWorkerCount ${members} \
+	    --clientWorkerCount ${clients} \
+	    --duration ${duration} \
+            --enterpriseEnabled ${ee} \
+	    --workerVmOptions "$memberJvmArgs" \
+            --clientWorkerVmOptions "$clientJvmArgs" \
+	    --parallel \
+	    test.properties
+exitCode=$?
+
+outputPath="$(pwd)/output/$(date '+%Y_%m_%d-%H_%M_%S')"
+
+provisioner --download ${outputPath}
+
+exit ${exitCode}

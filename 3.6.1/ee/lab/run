@@ -1,0 +1,45 @@
+#!/bin/sh
+
+boxCount=5
+memberBox=0
+members=5
+clients=500
+duration=48h
+
+gcArgs="-verbose:gc -Xloggc:verbosegc.log"
+gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime"
+
+memberHeapSZ=5G
+monitorSec=10
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.operation.backup.timeout.millis=276400000"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.operation.call.timeout.millis=600000"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.health.monitoring.level=NOISY -Dhazelcast.health.monitoring.delay.seconds=$monitorSec"
+memberJvmArgs="$memberJvmArgs -Xmx$memberHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+memberJvmArgs="$memberJvmArgs $gcArgs"
+#memberJvmArgs="$memberJvmArgs -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=delay=2m,duration=1h,filename=hd-eeSimTests-member.jfr,settings=debug.jfc"
+
+
+clientHeapSZ=500M
+
+clientJvmArgs="$clientJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+clientJvmArgs="$clientJvmArgs -Xmx$clientHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+clientJvmArgs="$clientJvmArgs $gcArgs"
+
+coordinator --dedicatedMemberMachines ${memberBox} \
+	        --memberWorkerCount ${members} \
+	        --clientWorkerCount ${clients} \
+	        --duration ${duration} \
+            --enterpriseEnabled true \
+	        --workerVmOptions "$memberJvmArgs" \
+            --clientWorkerVmOptions "$clientJvmArgs" \
+                --uploadHazelcastJARs true \
+	        --parallel \
+	        test.properties
+exitCode=$?
+
+#outputPath="$(pwd)/output/$(date '+%Y_%m_%d-%H_%M_%S')"
+#provisioner --download ${outputPath}
+
+exit ${exitCode}
