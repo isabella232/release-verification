@@ -12,10 +12,10 @@ gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+PrintTenuringDis
 memberHeapSZ=6G
 monitorSec=10
 
-memberJvmArgs="$memberJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.diagnostics.metric.level=INFO -Dhazelcast.performance.monitoring.enabled=true"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.diagnostics.metric.level=INFO -Dhazelcast.performance.monitoring.enabled=true -Dhazelcast.performance.metric.level=info"
 memberJvmArgs="$memberJvmArgs -Dhazelcast.health.monitoring.level=NOISY -Dhazelcast.health.monitoring.delay.seconds=$monitorSec"
 memberJvmArgs="$memberJvmArgs -Xmx$memberHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
-memberJvmArgs="$memberJvmArgs -Dhazelcast.operation.call.timeout.millis=600000 -ea $gcArgs"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.operation.backup.timeout.millis=120000 -Dhazelcast.operation.call.timeout.millis=600000 -ea $gcArgs"
 #memberJvmArgs="$memberJvmArgs -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=delay=2m,duration=1h,filename=hd-eeSimTests-member.jfr,settings=debug.jfc"
 
 
