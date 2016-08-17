@@ -1,0 +1,15 @@
+
+makeTTyCmdsFix agents.txt ec2-user
+./ttyCmds
+
+sshAll 'sudo ethtool -K eth0 sg off'
+sshAll 'ethtool -k eth0 | grep sca'
+
+provisioner --install --uploadHazelcast --enterpriseEnabled true
+provisioner --installJava
+
+for i in {1..12} ; do
+  ./run
+done
+
+./runLong
