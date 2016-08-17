@@ -1,7 +1,0 @@
-
-sshAll 'sudo killall -9 java'
-
-provisioner --clean
-
-sshAll 'sudo rm -fr /tmp/*'
-sshAll 'rm *.csv'
