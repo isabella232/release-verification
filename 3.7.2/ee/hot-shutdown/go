@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -e
+cleanup() {
+    exitCode=$?
+    hz-ssh a.box 'sudo killall -9 java' danny
+    hz download || true
+    hz wipe
+    hz chart metrics
+    hz-ssh a.box 'rm -r hot-junk' danny
+    killjavahear
+    exit ${exitCode}
+}
+trap "cleanup" INT TERM EXIT
+
+
+ops="$ops -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+ops="$ops -Dhazelcast.backpressure.enabled=true"
+ops="$ops -ea"
+
+mOps="$mOps -Dhazelcast.partition.max.parallel.replications=1"
+mOps="$mOps -Dhazelcast.hotrestart.gc.stuck.detect.threshold=10000"
+mOps="$mOps -Dhazelcast.hotrestart.free.native.memory.percentage=15"
+mOps="$mOps -Dhazelcast.hidensity.check.freememory=false"
+mOps="$mOps -Dhazelcast.diagnostics.metric.level=DEBUG -Dhazelcast.performance.monitoring.enabled=true"
+
+hz memberOps "-XX:+PrintFlagsFinal -XX:+UseLargePages -Xms4G -Xmx4G ${ops} ${mOps}"
+hz clientOps "-XX:+PrintFlagsFinal -XX:+UseLargePages -Xms1G -Xmx1G ${ops}"
+hz cluster -size M4C100 -id HZ -v 3.7 -ee -boxes a.box -user danny
+
+hz bench 43200
+hz driver Client
+hz run methods &
+
+for i in {1..600} ; do
+    sleep 60
+    hz run clusterShutdown
+    hz embeddedRestart Member
+    hz run active
+    hz check
+done
+
+wait

@@ -1,0 +1,102 @@
+<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config
+                               http://www.hazelcast.com/schema/config/hazelcast-config-3.6.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <group>
+        <name>workers</name>
+    </group>
+
+    <network>
+        <port port-count="200" auto-increment="true">5701</port>
+        <join>
+            <multicast enabled="false"/>
+            <tcp-ip enabled="true">
+                <!--MEMBERS-->
+            </tcp-ip>
+        </join>
+    </network>
+
+    <properties>
+        <property name="hazelcast.phone.home.enabled">false</property>
+    </properties>
+
+    <partition-group enabled="true" group-type="HOST_AWARE"></partition-group>
+
+    <native-memory allocator-type="POOLED" enabled="true">
+        <size unit="GIGABYTES" value="10" />
+        <metadata-space-percentage>50</metadata-space-percentage>
+    </native-memory>
+
+    <hot-restart-persistence enabled="true">
+        <base-dir>hot-junk</base-dir>
+    </hot-restart-persistence>
+
+    <cache name="natCache*">
+        <backup-count>1</backup-count>
+        <async-backup-count>0</async-backup-count>
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction size="40" max-size-policy="FREE_NATIVE_MEMORY_PERCENTAGE" eviction-policy="LRU" />
+        <statistics-enabled>true</statistics-enabled>
+        <hot-restart enabled="true">
+            <fsync>false</fsync>
+        </hot-restart>
+    </cache>
+
+    <cache name="objCache*">
+        <backup-count>1</backup-count>
+        <async-backup-count>0</async-backup-count>
+        <in-memory-format>OBJECT</in-memory-format>
+        <eviction max-size-policy="ENTRY_COUNT" size="10010" eviction-policy="LFU"/>
+        <statistics-enabled>true</statistics-enabled>
+        <hot-restart enabled="true">
+            <fsync>false</fsync>
+        </hot-restart>
+    </cache>
+
+    <cache name="binCache*">
+        <backup-count>1</backup-count>
+        <async-backup-count>0</async-backup-count>
+        <in-memory-format>BINARY</in-memory-format>
+        <eviction max-size-policy="ENTRY_COUNT" size="10010" eviction-policy="LFU"/>
+        <statistics-enabled>true</statistics-enabled>
+        <hot-restart enabled="true">
+            <fsync>false</fsync>
+        </hot-restart>
+    </cache>
+
+
+    <map name="natMap*">
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction-policy>LRU</eviction-policy>
+        <eviction-percentage>5</eviction-percentage>
+        <max-size policy="FREE_NATIVE_MEMORY_PERCENTAGE">40</max-size>
+        <min-eviction-check-millis>0</min-eviction-check-millis>
+        <hot-restart enabled="true">
+            <fsync>false</fsync>
+        </hot-restart>
+    </map>
+
+    <map name="binMap*">
+        <in-memory-format>BINARY</in-memory-format>
+        <eviction-policy>LFU</eviction-policy>
+        <max-size policy="PER_NODE">10010</max-size>
+        <eviction-percentage>5</eviction-percentage>
+        <min-eviction-check-millis>0</min-eviction-check-millis>
+        <hot-restart enabled="true">
+            <fsync>false</fsync>
+        </hot-restart>
+    </map>
+
+    <map name="objMap*">
+        <in-memory-format>OBJECT</in-memory-format>
+        <eviction-policy>LFU</eviction-policy>
+        <max-size policy="PER_NODE">10010</max-size>
+        <eviction-percentage>5</eviction-percentage>
+        <min-eviction-check-millis>0</min-eviction-check-millis>
+        <hot-restart enabled="true">
+            <fsync>false</fsync>
+        </hot-restart>
+    </map>
+
+</hazelcast>

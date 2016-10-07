@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+cleanup() {
+    exitCode=$?
+    hz download || true
+    hz wipe
+    hz chart metrics
+    hz-ssh a.box 'rm -r hot-junk' danny
+    killjavahear
+    exit ${exitCode}
+}
+trap "cleanup" INT TERM EXIT
+
+
+ops="$ops -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+ops="$ops -Dhazelcast.backpressure.enabled=true"
+#ops="$ops -XX:+PrintFlagsFinal -XX:+UseLargePages"
+ops="$ops -ea"
+
+mOps="$mOps -Dhazelcast.hotrestart.gc.stuck.detect.threshold=10000"
+mOps="$mOps -Dhazelcast.hotrestart.free.native.memory.percentage=15"
+mOps="$mOps -Dhazelcast.hidensity.check.freememory=false"
+mOps="$mOps -Dhazelcast.connection.monitor.interval=1000 -Dhazelcast.connection.monitor.max.faults=30"
+
+hz memberOps "-Xms4G -Xmx4G ${ops} ${mOps}"
+hz clientOps "-Xms1G -Xmx1G ${ops}"
+hz cluster -size M2C50 -id HZ -v 3.7 -ee -boxes a.box -user danny
+
+hz bounce -iterations 100 -initalDelay 600 -iterationDelay 600 Member &
+
+hz bench 86400
+hz driver Client
+hz run methods
+wait
+

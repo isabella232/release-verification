@@ -1,0 +1,53 @@
+#!/bin/sh
+
+makeTTyCmdsFix agents.txt ec2-user
+./ttyCmds
+
+sshAll 'sudo ethtool -K eth0 sg off'
+sshAll 'ethtool -k eth0 | grep sca'
+
+provisioner --install
+provisioner --installJava
+
+boxCount=10
+memberBox=0
+members=10
+clients=50
+duration=48h
+ee=false
+
+gcArgs="-verbose:gc -Xloggc:verbosegc.log"
+gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime"
+
+memberHeapSZ=2G
+monitorSec=10
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.diagnostics.metric.level=INFO -Dhazelcast.performance.monitoring.enabled=true"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.health.monitoring.level=NOISY -Dhazelcast.health.monitoring.delay.seconds=$monitorSec"
+memberJvmArgs="$memberJvmArgs -ea -Xmx$memberHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+memberJvmArgs="$memberJvmArgs $gcArgs"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.operation.backup.timeout.millis=120000"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.operation.call.timeout.millis=600000"
+
+clientHeapSZ=350M
+
+clientJvmArgs="$clientJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.diagnostics.metric.level=INFO"
+clientJvmArgs="$clientJvmArgs -ea -Xmx$clientHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+clientJvmArgs="$clientJvmArgs $gcArgs"
+
+coordinator --dedicatedMemberMachines ${memberBox} \
+	    --memberWorkerCount ${members} \
+	    --clientWorkerCount ${clients} \
+	    --duration ${duration} \
+            --enterpriseEnabled ${ee} \
+	    --workerVmOptions "$memberJvmArgs" \
+            --clientWorkerVmOptions "$clientJvmArgs" \
+	    --parallel \
+	    test.properties
+exitCode=$?
+
+outputPath="$(pwd)/output/$(date '+%Y_%m_%d-%H_%M_%S')"
+
+provisioner --download ${outputPath}
+
+exit ${exitCode}
