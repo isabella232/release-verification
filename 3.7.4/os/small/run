@@ -2,6 +2,7 @@
 
 makeTTyCmdsFix agents.txt ec2-user
 
+provisioner --clean
 provisioner --install
 provisioner --installJava
 
@@ -9,7 +10,7 @@ boxCount=4
 memberBox=0
 members=4
 clients=8
-duration=5m
+duration=48h
 ee=false
 
 gcArgs="-verbose:gc -Xloggc:verbosegc.log"
@@ -18,12 +19,15 @@ gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+PrintTenuringDis
 memberHeapSZ=2G
 monitorSec=10
 
-memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.invocation.sample.period.seconds=10 -Dhazelcast.diagnostics.invocation.slow.threshold.seconds=10"
-memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.max.rolled.file.size.mb=100 -Dhazelcast.diagnostics.max.rolled.file.count=15"
-memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.overloaded.connections.period.seconds=10"
+#memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.invocation.sample.period.seconds=10 -Dhazelcast.diagnostics.invocation.slow.threshold.seconds=10"
+#memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.max.rolled.file.size.mb=100 -Dhazelcast.diagnostics.max.rolled.file.count=15"
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.overloaded.connections.period.seconds=4"
 memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.overloaded.connections.threshold=5000"
+
 memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.metric.level=DEBUG -Dhazelcast.diagnostics.enabled=true"
 memberJvmArgs="$memberJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+
 memberJvmArgs="$memberJvmArgs -Dhazelcast.health.monitoring.level=NOISY -Dhazelcast.health.monitoring.delay.seconds=$monitorSec"
 memberJvmArgs="$memberJvmArgs -ea -Xmx$memberHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
 memberJvmArgs="$memberJvmArgs $gcArgs"
@@ -46,9 +50,9 @@ coordinator --dedicatedMemberMachines ${memberBox} \
 	    --memberWorkerCount ${members} \
 	    --clientWorkerCount ${clients} \
 	    --duration ${duration} \
-            --enterpriseEnabled ${ee} \
+      --enterpriseEnabled ${ee} \
 	    --workerVmOptions "$memberJvmArgs" \
-            --clientWorkerVmOptions "$clientJvmArgs" \
+      --clientWorkerVmOptions "$clientJvmArgs" \
 	    --parallel \
 	    test.properties
 exitCode=$?
