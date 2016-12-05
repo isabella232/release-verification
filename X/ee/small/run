@@ -1,0 +1,61 @@
+#!/bin/sh
+
+makeTTyCmdsFix agents.txt ec2-user
+./ttyCmds
+sshAll 'sudo ethtool -K eth0 sg off'
+sshAll 'ethtool -k eth0 | grep sca'
+
+provisioner --clean
+provisioner --install
+provisioner --installJava
+
+sshAll "sudo yum install -y dstat tcpdump"
+sshAll "nohup dstat -tciymn --socket --tcp -rsgd --output dstat.csv > /dev/null &"
+#sshAll "nohup sudo tcpdump -n -tttt > tcpdump.txt &"
+sshAll 'netstat -s' > netstat_start.txt
+
+forIpsIn agents.txt scpUp agents.txt .
+sshAll "awk -F',' '{print \$2}' agents.txt | xargs -n1 -I% bash -c 'nohup ping -i 2 % > %.ping &'"
+
+
+gcArgs="$gcArgs -verbose:gc -Xloggc:verbosegc.log"
+gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails"
+gcArgs="$gcArgs -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime"
+
+
+mArgs="$mArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+mArgs="$mArgs -Dhazelcast.operation.backup.timeout.millis=120000"
+mArgs="$mArgs -Dhazelcast.operation.call.timeout.millis=600000"
+mArgs="$mArgs -Dhazelcast.diagnostics.enabled=true"
+mArgs="$mArgs -Dhazelcast.diagnostics.metric.level=DEBUG"
+mArgs="$mArgs -Dhazelcast.diagnostics.overloaded.connections.period.seconds=10"
+mArgs="$mArgs -Dhazelcast.diagnostics.overloaded.connections.threshold=5000"
+mArgs="$mArgs -Dhazelcast.diagnostics.invocation.slow.threshold.seconds=10"
+mArgs="$mArgs -Dhazelcast.diagnostics.invocation.sample.period.seconds=10"
+mArgs="$mArgs -Dhazelcast.health.monitoring.level=NOISY"
+mArgs="$mArgs -Dhazelcast.health.monitoring.delay.seconds=10"
+mArgs="$mArgs -Xms2G -Xmx2G -XX:+HeapDumpOnOutOfMemoryError"
+mArgs="$mArgs -ea ${gcArgs}"
+
+cArgs="$cArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+cArgs="$cArgs -Xms350M -Xmx350M -XX:+HeapDumpOnOutOfMemoryError"
+cArgs="$cArgs -ea ${gcArgs}"
+
+coordinator --memberWorkerCount 4 --clientWorkerCount 8 --duration 48h --enterpriseEnabled true --workerVmOptions "${mArgs}" --clientWorkerVmOptions "${cArgs}" --parallel test.properties
+exitCode=$?
+outputPath="$(pwd)/output"
+provisioner --download ${outputPath}
+
+
+sshAll 'netstat -s' > netstat_end.txt
+sshAll "killall -9 dstat"
+sshAll "sudo killall -9 tcpdump"
+sshAll "sudo killall -9 ping"
+
+forIpsIn agents.txt scpDown dstat.csv ${outputPath}
+forIpsIn agents.txt scpDown tcpdump.txt ${outputPath}
+forIpsIn agents.txt scpDown '*.ping' ${outputPath}
+
+gcViewerPics ${outputPath} member
+
+exit ${exitCode}
