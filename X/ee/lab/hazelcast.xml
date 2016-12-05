@@ -24,7 +24,7 @@
     <partition-group enabled="true" group-type="HOST_AWARE"></partition-group>
 
     <native-memory allocator-type="POOLED" enabled="true">
-        <size unit="GIGABYTES" value="4" />
+        <size unit="GIGABYTES" value="40" />
         <metadata-space-percentage>20</metadata-space-percentage>
     </native-memory>
 
