@@ -30,17 +30,11 @@
 
     <map name="*">
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction-policy>LFU</eviction-policy>
-        <eviction-percentage>1</eviction-percentage>
-        <max-size policy="USED_NATIVE_MEMORY_PERCENTAGE">99</max-size>
-        <min-eviction-check-millis>2000</min-eviction-check-millis>
     </map>
 
     <cache name="*">
         <backup-count>1</backup-count>
-        <async-backup-count>0</async-backup-count>
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction size="99" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" eviction-policy="LRU" />
     </cache>
 
 
