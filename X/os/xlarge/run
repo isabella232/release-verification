@@ -55,5 +55,6 @@ forIpsIn agents.txt scpDown tcpdump.txt ${outputPath}
 forIpsIn agents.txt scpDown '*.ping' ${outputPath}
 
 gcViewerPics ${outputPath} member
+chartHzDiagnostics
 
 exit ${exitCode}
