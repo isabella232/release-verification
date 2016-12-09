@@ -58,5 +58,6 @@ forIpsIn agents.txt scpDown '*.ping' ${outputPath}
 
 gcViewerPics ${outputPath} member
 chartHzDiagnostics
+chartDstat
 
 exit ${exitCode}
