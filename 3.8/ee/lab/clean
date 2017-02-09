@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+sshAll 'sudo killall -9 java; sudo rm -fr /tmp/*; rm *.csv'
+
+provisioner --clean
