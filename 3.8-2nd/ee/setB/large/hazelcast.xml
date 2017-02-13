@@ -1,8 +1,7 @@
 <hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config
-                               http://www.hazelcast.com/schema/config/hazelcast-config-3.5.xsd"
+                               http://www.hazelcast.com/schema/config/hazelcast-config-3.8.xsd"
            xmlns="http://www.hazelcast.com/schema/config"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
     <group>
         <name>workers</name>
     </group>
@@ -21,7 +20,9 @@
         <property name="hazelcast.phone.home.enabled">false</property>
     </properties>
 
-    <partition-group enabled="true" group-type="HOST_AWARE"></partition-group>
+    <!--LICENSE-KEY-->
+
+    <!--MANAGEMENT_CENTER_CONFIG-->
 
     <native-memory allocator-type="POOLED" enabled="true">
         <size unit="GIGABYTES" value="4" />
@@ -42,6 +43,4 @@
         <in-memory-format>NATIVE</in-memory-format>
         <eviction size="99" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" eviction-policy="LRU" />
     </cache>
-
-
 </hazelcast>
