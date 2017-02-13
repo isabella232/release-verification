@@ -152,19 +152,4 @@
     <quorum name="cache-quorum-ref" enabled="true">
         <quorum-size>3</quorum-size>
     </quorum>
-
-    <cache name="maxCacheSmall*">
-        <in-memory-format>NATIVE</in-memory-format>
-        <eviction max-size-policy="ENTRY_COUNT" size="271" eviction-policy="LFU"/>
-    </cache>
-
-    <cache name="maxCacheMedium*">
-        <in-memory-format>NATIVE</in-memory-format>
-        <eviction max-size-policy="ENTRY_COUNT" size="1000" eviction-policy="LFU"/>
-    </cache>
-
-    <cache name="maxCacheLarge*">
-        <in-memory-format>NATIVE</in-memory-format>
-        <eviction max-size-policy="ENTRY_COUNT" size="10000" eviction-policy="LFU"/>
-    </cache>
 </hazelcast>
