@@ -1,0 +1,80 @@
+#!/bin/sh
+
+makeTTyCmdsFix agents.txt ec2-user
+./ttyCmds
+sshAll 'sudo ethtool -K eth0 sg off'
+sshAll 'ethtool -k eth0 | grep sca'
+
+provisioner --install
+provisioner --installJava
+provisioner --clean
+
+
+boxCount=10
+memberBox=0
+members=10
+clients=50
+duration=48h
+
+gcArgs="-verbose:gc -Xloggc:verbosegc.log"
+gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime"
+
+memberHeapSZ=2G
+monitorSec=10
+
+#memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.invocation.sample.period.seconds=10 -Dhazelcast.diagnostics.invocation.slow.threshold.seconds=10"
+#memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.max.rolled.file.size.mb=100 -Dhazelcast.diagnostics.max.rolled.file.count=15"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.overloaded.connections.period.seconds=4"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.overloaded.connections.threshold=5000"
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.metric.level=DEBUG -Dhazelcast.diagnostics.enabled=true"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.health.monitoring.level=NOISY -Dhazelcast.health.monitoring.delay.seconds=$monitorSec"
+memberJvmArgs="$memberJvmArgs -Xmx$memberHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+memberJvmArgs="$memberJvmArgs -ea $gcArgs "
+memberJvmArgs="$memberJvmArgs -Dhazelcast.operation.backup.timeout.millis=120000"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.operation.call.timeout.millis=600000"
+#memberJvmArgs="$memberJvmArgs -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=delay=2m,duration=48h
+
+clientHeapSZ=350M
+
+clientJvmArgs="$clientJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+clientJvmArgs="$clientJvmArgs -Xmx$clientHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+clientJvmArgs="$clientJvmArgs $gcArgs -ea"
+
+sshAll "sudo yum install -y dstat tcpdump"
+sshAll "nohup dstat -tciymn --socket --tcp -rsgd --output dstat.csv > /dev/null &"
+#sshAll "nohup sudo tcpdump -n -tttt > tcpdump.txt &"
+sshAll 'netstat -s' > netstat_start.txt
+
+forIpsIn agents.txt scpUp agents.txt . ec2-user
+sshAll "awk -F',' '{print \$2}' agents.txt | xargs -n1 -I% bash -c 'nohup ping -i 2 % > %.ping &'"
+
+
+coordinator --dedicatedMemberMachines ${memberBox} \
+	        --memberWorkerCount ${members} \
+	        --clientWorkerCount ${clients} \
+	        --duration ${duration} \
+            --enterpriseEnabled true \
+	        --workerVmOptions "$memberJvmArgs" \
+            --clientWorkerVmOptions "$clientJvmArgs" \
+	        --parallel \
+	        test.properties
+exitCode=$?
+
+outputPath="$(pwd)/output/$(date '+%Y_%m_%d-%H_%M_%S')"
+
+sshAll 'netstat -s' > netstat_end.txt
+sshAll "killall -9 dstat"
+sshAll "sudo killall -9 tcpdump"
+sshAll "sudo killall -9 ping"
+
+forIpsIn agents.txt scpDown dstat.csv ${outputPath}
+forIpsIn agents.txt scpDown tcpdump.txt ${outputPath}
+forIpsIn agents.txt scpDown '*.ping' ${outputPath}
+
+
+provisioner --download ${outputPath}
+
+exit ${exitCode}

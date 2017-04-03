@@ -1,0 +1,12 @@
+
+sshAll 'sudo killall -9 java; sudo killall -9 dstat'
+
+provisioner --clean
+
+sshAll 'sudo rm -fr /tmp/*'
+sshAll 'rm *.csv'
+
+sshAll 'rm agent.*'
+sshAll 'rm harakiri.*'
+
+sshAll 'rm -r hazelcast-simulator-*'

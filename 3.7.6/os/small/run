@@ -1,0 +1,73 @@
+#!/bin/sh
+
+makeTTyCmdsFix agents.txt ec2-user
+
+provisioner --clean
+provisioner --install
+provisioner --installJava
+
+boxCount=4
+memberBox=0
+members=4
+clients=8
+duration=48h
+ee=false
+
+gcArgs="-verbose:gc -Xloggc:verbosegc.log"
+gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime"
+
+memberHeapSZ=2G
+monitorSec=10
+
+#memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.invocation.sample.period.seconds=10 -Dhazelcast.diagnostics.invocation.slow.threshold.seconds=10"
+#memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.max.rolled.file.size.mb=100 -Dhazelcast.diagnostics.max.rolled.file.count=15"
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.overloaded.connections.period.seconds=4"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.overloaded.connections.threshold=5000"
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.diagnostics.metric.level=DEBUG -Dhazelcast.diagnostics.enabled=true"
+memberJvmArgs="$memberJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
+
+memberJvmArgs="$memberJvmArgs -Dhazelcast.health.monitoring.level=NOISY -Dhazelcast.health.monitoring.delay.seconds=$monitorSec"
+memberJvmArgs="$memberJvmArgs -ea -Xmx$memberHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+memberJvmArgs="$memberJvmArgs $gcArgs"
+
+clientHeapSZ=350M
+
+clientJvmArgs="$clientJvmArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY} -Dhazelcast.diagnostics.metric.level=INFO"
+clientJvmArgs="$clientJvmArgs -ea -Xmx$clientHeapSZ -XX:+HeapDumpOnOutOfMemoryError"
+clientJvmArgs="$clientJvmArgs $gcArgs"
+
+sshAll "sudo yum install -y dstat tcpdump"
+sshAll "nohup dstat -tciymn --socket --tcp -rsgd --output dstat.csv > /dev/null &"
+#sshAll "nohup sudo tcpdump -n -tttt > tcpdump.txt &"
+sshAll 'netstat -s' > netstat_start.txt
+
+forIpsIn agents.txt scpUp agents.txt .
+sshAll "awk -F',' '{print \$2}' agents.txt | xargs -n1 -I% bash -c 'nohup ping -i 2 % > %.ping &'"
+
+coordinator --dedicatedMemberMachines ${memberBox} \
+	    --memberWorkerCount ${members} \
+	    --clientWorkerCount ${clients} \
+	    --duration ${duration} \
+      --enterpriseEnabled ${ee} \
+	    --workerVmOptions "$memberJvmArgs" \
+      --clientWorkerVmOptions "$clientJvmArgs" \
+	    --parallel \
+	    test.properties
+exitCode=$?
+
+outputPath="$(pwd)/output/$(date '+%Y_%m_%d-%H_%M_%S')"
+
+sshAll 'netstat -s' > netstat_end.txt
+sshAll "killall -9 dstat"
+sshAll "sudo killall -9 tcpdump"
+sshAll "sudo killall -9 ping"
+
+forIpsIn agents.txt scpDown dstat.csv ${outputPath}
+forIpsIn agents.txt scpDown tcpdump.txt ${outputPath}
+forIpsIn agents.txt scpDown '*.ping' ${outputPath}
+
+provisioner --download ${outputPath}
+
+exit ${exitCode}
