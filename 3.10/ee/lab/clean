@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-sshAll 'sudo killall -9 java; sudo rm -fr hazelcast-simulator-* /tmp/*; rm *.csv harakiri.* init.sh agent.*; sudo killall -9 dstat'
-
-coordinator --clean
