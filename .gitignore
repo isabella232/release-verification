@@ -178,7 +178,6 @@ flycheck_*.el
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
