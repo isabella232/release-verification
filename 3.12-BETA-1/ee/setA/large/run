@@ -27,4 +27,4 @@ cArgs="$cArgs -Dhazelcast.enterprise.license.key=${HAZELCAST_EE_KEY}"
 cArgs="$cArgs -Xms350M -Xmx350M -XX:+HeapDumpOnOutOfMemoryError"
 cArgs="$cArgs -ea ${gcArgs}"
 
-coordinator --members 10 --clients 50 --duration 48h --workerVmOptions "${mArgs}" --clientWorkerVmOptions "${cArgs}" --parallel test.properties
+coordinator --members 10 --clients 50 --duration 12h --workerVmOptions "${mArgs}" --clientWorkerVmOptions "${cArgs}" --parallel test.properties
