@@ -3,9 +3,7 @@
            xmlns="http://www.hazelcast.com/schema/config"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <cluster>
-        <name>workers</name>
-    </cluster>
+    <cluster-name>workers</cluster-name>
 
     <!--LITE_MEMBER_CONFIG-->
 
@@ -42,12 +40,11 @@
             <write-coalescing>false</write-coalescing>
         </map-store>
         <time-to-live-seconds>10</time-to-live-seconds>
-        <max-size policy="PER_NODE">5000</max-size>
+        <eviction eviction-policy="LRU" max-size-policy="PER_NODE" size="5000" />
     </map>
 
     <map name="MapMaxSize*">
-        <eviction-policy>LRU</eviction-policy>
-        <max-size policy="PER_NODE">1000</max-size>
+        <eviction eviction-policy="LRU" max-size-policy="PER_NODE" size="1000" />
     </map>
 
     <map name="NoBackup*">

@@ -2,7 +2,6 @@
 
 coordinator --clean
 provisioner --install
-provisioner --installJava
 
 gcArgs="$gcArgs -verbose:gc -Xloggc:verbosegc.log"
 gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails"

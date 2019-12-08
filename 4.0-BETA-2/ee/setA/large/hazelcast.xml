@@ -25,12 +25,6 @@
         <portable-version>1</portable-version>
 
         <data-serializable-factories>
-            <data-serializable-factory factory-id="2000">
-                com.hazelcast.simulator.tests.synthetic.SyntheticSerializableFactory
-            </data-serializable-factory>
-            <data-serializable-factory factory-id="3000">
-                com.hazelcast.simulator.tests.syntheticmap.SyntheticMapSerializableFactory
-            </data-serializable-factory>
             <data-serializable-factory factory-id="4000">
                 com.hazelcast.simulator.tests.map.domain.IdentifiedDataSerializableObjectFactory
             </data-serializable-factory>
@@ -59,21 +53,19 @@
 
     <map name="*">
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction-policy>LFU</eviction-policy>
-        <max-size policy="USED_NATIVE_MEMORY_PERCENTAGE">99</max-size>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
     </map>
 
     <cache name="*">
         <backup-count>1</backup-count>
         <async-backup-count>0</async-backup-count>
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction size="99" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" eviction-policy="LRU" />
+        <eviction eviction-policy="LRU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
     </cache>
 
     <map name="MapStore*">
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction-policy>LFU</eviction-policy>
-        <max-size policy="USED_NATIVE_MEMORY_PERCENTAGE">99</max-size>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
         <map-store enabled="true">
             <class-name>com.hazelcast.simulator.tests.map.helpers.MapStoreWithCounter</class-name>
             <write-delay-seconds>5</write-delay-seconds>
@@ -82,8 +74,7 @@
 
     <map name="MapEvictAndStore*">
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction-policy>LFU</eviction-policy>
-        <max-size policy="PER_NODE">5000</max-size>
+        <eviction eviction-policy="LFU" max-size-policy="PER_NODE" size="5000" />
         <map-store enabled="true">
             <class-name>com.hazelcast.simulator.tests.map.helpers.MapStoreWithCounterPerKey</class-name>
             <write-delay-seconds>5</write-delay-seconds>
@@ -94,14 +85,12 @@
 
     <map name="MapMaxSize*">
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction-policy>LFU</eviction-policy>
-        <max-size policy="PER_NODE">1000</max-size>
+        <eviction eviction-policy="LFU" max-size-policy="PER_NODE" size="1000" />
     </map>
 
     <map name="ExtractorMapTest*">
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction-policy>LFU</eviction-policy>
-        <max-size policy="USED_NATIVE_MEMORY_PERCENTAGE">99</max-size>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
         <attributes>
             <attribute extractor-class-name="com.hazelcast.simulator.tests.map.ExtractorMapTest$PayloadExtractor">
                 payloadFromExtractor
@@ -111,8 +100,7 @@
 
     <map name="PortableExtractorMapTest*">
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction-policy>LFU</eviction-policy>
-        <max-size policy="USED_NATIVE_MEMORY_PERCENTAGE">99</max-size>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
         <attributes>
             <attribute extractor-class-name="com.hazelcast.simulator.tests.map.ExtractorMapTest$PayloadPortableExtractor">
                 payloadFromExtractor
@@ -122,8 +110,7 @@
 
     <map name="split-brain-protection-map">
         <in-memory-format>NATIVE</in-memory-format>
-        <eviction-policy>LFU</eviction-policy>
-        <max-size policy="USED_NATIVE_MEMORY_PERCENTAGE">99</max-size>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
         <backup-count>1</backup-count>
         <split-brain-protection-ref>map-split-brain-protection-ref</split-brain-protection-ref>
     </map>
