@@ -1,0 +1,114 @@
+INFO  2020-01-04 17:29:19,049 [main] com.hazelcast.simulator.agent.AgentsSshCli: Hazelcast Simulator agent-ssh
+INFO  2020-01-04 17:29:19,060 [main] com.hazelcast.simulator.agent.AgentsSshCli: Version: 0.12-SNAPSHOT, Commit: 8121e70, Build Time: 04.01.2020 @ 17:14:23 CET
+INFO  2020-01-04 17:29:19,062 [main] com.hazelcast.simulator.agent.AgentsSshCli: SIMULATOR_HOME: /home/jholusa/Programs/simulator/hazelcast-simulator-0.12-SNAPSHOT
+INFO  2020-01-04 17:29:19,079 [main] com.hazelcast.simulator.common.SimulatorProperties: Loading default simulator.properties: /home/jholusa/Programs/simulator/hazelcast-simulator-0.12-SNAPSHOT/conf/simulator.properties
+INFO  2020-01-04 17:29:19,082 [main] com.hazelcast.simulator.common.SimulatorProperties: Loading additional simulator.properties: /home/jholusa/IdeaProjects/release-verification/4.0-SNAPSHOT/ee/lab/simulator.properties
+DEBUG 2020-01-04 17:29:19,088 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.101 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:20,033 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:20,035 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.102 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:20,953 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:20,955 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.103 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:21,966 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:21,968 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.104 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:22,824 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:22,825 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.105 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:23,791 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:23,792 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.106 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:24,784 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:24,786 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.107 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:25,752 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:25,755 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.108 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:26,727 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:26,729 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.109 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:27,659 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:29:27,661 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.110 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:29:28,611 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+INFO  2020-01-04 17:36:16,815 [main] com.hazelcast.simulator.agent.AgentsSshCli: Hazelcast Simulator agent-ssh
+INFO  2020-01-04 17:36:16,823 [main] com.hazelcast.simulator.agent.AgentsSshCli: Version: 0.12-SNAPSHOT, Commit: 8121e70, Build Time: 04.01.2020 @ 17:14:23 CET
+INFO  2020-01-04 17:36:16,825 [main] com.hazelcast.simulator.agent.AgentsSshCli: SIMULATOR_HOME: /home/jholusa/Programs/simulator/hazelcast-simulator-0.12-SNAPSHOT
+INFO  2020-01-04 17:36:16,838 [main] com.hazelcast.simulator.common.SimulatorProperties: Loading default simulator.properties: /home/jholusa/Programs/simulator/hazelcast-simulator-0.12-SNAPSHOT/conf/simulator.properties
+INFO  2020-01-04 17:36:16,841 [main] com.hazelcast.simulator.common.SimulatorProperties: Loading additional simulator.properties: /home/jholusa/IdeaProjects/release-verification/4.0-SNAPSHOT/ee/lab/simulator.properties
+DEBUG 2020-01-04 17:36:16,849 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.101 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:17,801 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:17,804 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.102 'sudo killall -9 java || true' 
+INFO  2020-01-04 17:36:26,542 [main] com.hazelcast.simulator.agent.AgentsSshCli: Hazelcast Simulator agent-ssh
+INFO  2020-01-04 17:36:26,551 [main] com.hazelcast.simulator.agent.AgentsSshCli: Version: 0.12-SNAPSHOT, Commit: 8121e70, Build Time: 04.01.2020 @ 17:14:23 CET
+INFO  2020-01-04 17:36:26,552 [main] com.hazelcast.simulator.agent.AgentsSshCli: SIMULATOR_HOME: /home/jholusa/Programs/simulator/hazelcast-simulator-0.12-SNAPSHOT
+INFO  2020-01-04 17:36:26,569 [main] com.hazelcast.simulator.common.SimulatorProperties: Loading default simulator.properties: /home/jholusa/Programs/simulator/hazelcast-simulator-0.12-SNAPSHOT/conf/simulator.properties
+INFO  2020-01-04 17:36:26,573 [main] com.hazelcast.simulator.common.SimulatorProperties: Loading additional simulator.properties: /home/jholusa/IdeaProjects/release-verification/4.0-SNAPSHOT/ee/lab/simulator.properties
+DEBUG 2020-01-04 17:36:26,579 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.101 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:27,526 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:27,529 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.102 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:28,467 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:28,467 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.103 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:29,477 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:29,478 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.104 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:30,323 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:30,324 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.105 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:31,271 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:31,272 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.106 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:32,248 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:32,251 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.107 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:33,225 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:33,227 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.108 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:34,207 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:34,209 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.109 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:35,164 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:36:35,166 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.110 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:36:36,118 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+INFO  2020-01-04 17:46:58,278 [main] com.hazelcast.simulator.agent.AgentsSshCli: Hazelcast Simulator agent-ssh
+INFO  2020-01-04 17:46:58,289 [main] com.hazelcast.simulator.agent.AgentsSshCli: Version: 0.12-SNAPSHOT, Commit: 8121e70, Build Time: 04.01.2020 @ 17:14:23 CET
+INFO  2020-01-04 17:46:58,291 [main] com.hazelcast.simulator.agent.AgentsSshCli: SIMULATOR_HOME: /home/jholusa/Programs/simulator/hazelcast-simulator-0.12-SNAPSHOT
+INFO  2020-01-04 17:46:58,308 [main] com.hazelcast.simulator.common.SimulatorProperties: Loading default simulator.properties: /home/jholusa/Programs/simulator/hazelcast-simulator-0.12-SNAPSHOT/conf/simulator.properties
+INFO  2020-01-04 17:46:58,312 [main] com.hazelcast.simulator.common.SimulatorProperties: Loading additional simulator.properties: /home/jholusa/IdeaProjects/release-verification/4.0-SNAPSHOT/ee/lab/simulator.properties
+DEBUG 2020-01-04 17:46:58,318 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.101 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:46:59,275 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:46:59,277 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.102 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:00,190 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:47:00,191 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.103 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:01,168 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:47:01,169 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.104 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:02,019 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:47:02,020 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.105 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:02,981 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:47:02,983 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.106 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:03,950 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:47:03,952 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.107 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:04,938 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:47:04,940 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.108 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:05,909 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:47:05,911 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.109 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:06,838 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
+DEBUG 2020-01-04 17:47:06,840 [main] com.hazelcast.simulator.utils.BashCommand: Executing bash command: ssh -n -o LogLevel=quiet -o BatchMode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null simulator@10.212.1.110 'sudo killall -9 java || true' 
+DEBUG 2020-01-04 17:47:07,785 [main] com.hazelcast.simulator.utils.BashCommand: Bash output: 
+
