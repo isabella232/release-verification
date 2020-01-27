@@ -1,0 +1,27 @@
+#!/bin/sh
+
+coordinator --clean
+provisioner --install
+
+gcArgs="$gcArgs -verbose:gc -Xloggc:verbosegc.log"
+gcArgs="$gcArgs -XX:+PrintGCTimeStamps -XX:+PrintGCDetails"
+gcArgs="$gcArgs -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime"
+
+mArgs="$mArgs -Dhazelcast.operation.backup.timeout.millis=120000"
+mArgs="$mArgs -Dhazelcast.operation.call.timeout.millis=600000"
+mArgs="$mArgs -Dhazelcast.diagnostics.enabled=true"
+mArgs="$mArgs -Dhazelcast.diagnostics.metric.level=DEBUG"
+mArgs="$mArgs -Dhazelcast.diagnostics.overloaded.connections.period.seconds=10"
+mArgs="$mArgs -Dhazelcast.diagnostics.overloaded.connections.threshold=5000"
+mArgs="$mArgs -Dhazelcast.diagnostics.invocation.slow.threshold.seconds=10"
+mArgs="$mArgs -Dhazelcast.diagnostics.invocation.sample.period.seconds=10"
+mArgs="$mArgs -Dhazelcast.health.monitoring.level=NOISY"
+mArgs="$mArgs -Dhazelcast.health.monitoring.delay.seconds=10"
+mArgs="$mArgs -Xms2G -Xmx2G -XX:+HeapDumpOnOutOfMemoryError"
+mArgs="$mArgs -ea ${gcArgs}"
+
+cArgs="$cArgs -Xms350M -Xmx350M -XX:+HeapDumpOnOutOfMemoryError"
+cArgs="$cArgs -ea ${gcArgs}"
+
+coordinator --members 2 --clients 4 --duration 48h --memberArgs "${mArgs}" --clientArgs "${cArgs}" --parallel test.properties
+
