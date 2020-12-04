@@ -185,3 +185,4 @@ flycheck_*.el
 hs_err_pid*
 .gitignore
 .idea/
+**/.DS_Store
