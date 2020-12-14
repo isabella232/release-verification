@@ -23,5 +23,5 @@ mArgs="$mArgs -ea ${gcArgs}"
 cArgs="$cArgs -Xms350M -Xmx350M -XX:+HeapDumpOnOutOfMemoryError"
 cArgs="$cArgs -ea ${gcArgs}"
 
-coordinator --driver hazelcast --version maven=4.1.1-SNAPSHOT --members 10 --clients 50 --duration 48h --memberArgs "${mArgs}" --clientArgs "${cArgs}" --parallel test.properties
+coordinator --driver hazelcast4 --version maven=4.1.1-SNAPSHOT --members 10 --clients 50 --duration 48h --memberArgs "${mArgs}" --clientArgs "${cArgs}" --parallel test.properties
 
