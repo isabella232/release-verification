@@ -1,0 +1,132 @@
+<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config
+                               http://www.hazelcast.com/schema/config/hazelcast-config-4.0.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <network>
+        <port port-count="200" auto-increment="true">5701</port>
+        <join>
+            <multicast enabled="false"/>
+            <tcp-ip enabled="true">
+                <!--MEMBERS-->
+            </tcp-ip>
+        </join>
+    </network>
+
+    <properties>
+        <property name="hazelcast.phone.home.enabled">false</property>
+    </properties>
+
+    <!--LICENSE-KEY-->
+
+    <!--MANAGEMENT_CENTER_CONFIG-->
+
+    <serialization>
+        <portable-version>1</portable-version>
+
+        <data-serializable-factories>
+            <data-serializable-factory factory-id="4000">
+                com.hazelcast.simulator.tests.map.domain.IdentifiedDataSerializableObjectFactory
+            </data-serializable-factory>
+        </data-serializable-factories>
+
+        <portable-factories>
+            <portable-factory factory-id="10000001">
+                com.hazelcast.simulator.tests.map.domain.PortableObjectFactory
+            </portable-factory>
+            <portable-factory factory-id="10000002">
+                com.hazelcast.simulator.tests.map.helpers.ComplexDomainObjectPortableFactory
+            </portable-factory>
+            <portable-factory factory-id="5000">
+                com.hazelcast.simulator.tests.map.ExtractorMapTest$SillySequencePortableFactory
+            </portable-factory>
+            <portable-factory factory-id="5001">
+                com.hazelcast.simulator.tests.map.MultiValueMapTest$SillySequencePortableFactory
+            </portable-factory>
+        </portable-factories>
+    </serialization>
+
+    <native-memory allocator-type="POOLED" enabled="true">
+        <size unit="GIGABYTES" value="6" />
+        <metadata-space-percentage>20</metadata-space-percentage>
+    </native-memory>
+
+    <map name="*">
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
+    </map>
+
+    <cache name="*">
+        <backup-count>1</backup-count>
+        <async-backup-count>0</async-backup-count>
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction size="99" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" eviction-policy="LRU" />
+    </cache>
+
+    <map name="MapStore*">
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
+        <map-store enabled="true">
+            <class-name>com.hazelcast.simulator.tests.map.helpers.MapStoreWithCounter</class-name>
+            <write-delay-seconds>5</write-delay-seconds>
+        </map-store>
+    </map>
+
+    <map name="MapEvictAndStore*">
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction eviction-policy="LFU" max-size-policy="PER_NODE" size="5000" />
+        <map-store enabled="true">
+            <class-name>com.hazelcast.simulator.tests.map.helpers.MapStoreWithCounterPerKey</class-name>
+            <write-delay-seconds>5</write-delay-seconds>
+            <write-coalescing>false</write-coalescing>
+        </map-store>
+        <time-to-live-seconds>10</time-to-live-seconds>
+    </map>
+
+    <map name="MapMaxSize*">
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction eviction-policy="LFU" max-size-policy="PER_NODE" size="1000" />
+    </map>
+
+    <map name="ExtractorMapTest*">
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
+        <attributes>
+            <attribute extractor-class-name="com.hazelcast.simulator.tests.map.ExtractorMapTest$PayloadExtractor">
+                payloadFromExtractor
+            </attribute>
+        </attributes>
+    </map>
+
+    <map name="PortableExtractorMapTest*">
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
+        <attributes>
+            <attribute extractor-class-name="com.hazelcast.simulator.tests.map.ExtractorMapTest$PayloadPortableExtractor">
+                payloadFromExtractor
+            </attribute>
+        </attributes>
+    </map>
+
+    <map name="split-brain-protection-map">
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction eviction-policy="LFU" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" size="99" />
+        <backup-count>1</backup-count>
+        <split-brain-protection-ref>map-split-brain-protection-ref</split-brain-protection-ref>
+    </map>
+
+    <cache name="split-brain-protection-cache">
+        <backup-count>1</backup-count>
+        <in-memory-format>NATIVE</in-memory-format>
+        <eviction size="99" max-size-policy="USED_NATIVE_MEMORY_PERCENTAGE" eviction-policy="LRU" />
+        <split-brain-protection-ref>cache-split-brain-protection-ref</split-brain-protection-ref>
+    </cache>
+
+    <split-brain-protection name="map-split-brain-protection-ref" enabled="true">
+        <minimum-cluster-size>3</minimum-cluster-size>
+    </split-brain-protection>
+
+    <split-brain-protection name="cache-split-brain-protection-ref" enabled="true">
+        <minimum-cluster-size>3</minimum-cluster-size>
+    </split-brain-protection>
+</hazelcast>
