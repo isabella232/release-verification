@@ -1,6 +1,0 @@
-{
-  "ImageId": "ami-0b33d91d",
-  "InstanceType": "c3.2xlarge",
-  "KeyName": "jenkins-ec2-key",
-  "SubnetId": "subnet-378d2140"
-}
