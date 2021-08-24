@@ -21,7 +21,7 @@ mArgs="$mArgs -Dhazelcast.health.monitoring.delay.seconds=10"
 mArgs="$mArgs -Xms8G -Xmx8G -XX:+HeapDumpOnOutOfMemoryError"
 mArgs="$mArgs -ea ${gcArgs}"
 
-cArgs="$cArgs -Xms350M -Xmx350M -XX:+HeapDumpOnOutOfMemoryError"
+cArgs="$cArgs -Xms450M -Xmx450M -XX:+HeapDumpOnOutOfMemoryError"
 cArgs="$cArgs -ea ${gcArgs}"
 
 coordinator --driver hazelcast-enterprise4 --version maven=5.0-BETA-2-SNAPSHOT --members 10 --clients 1000 --duration 12h  --memberArgs "${mArgs}" --clientArgs "${cArgs}" --parallel --licenseKey ${HAZELCAST_EE_KEY} test.properties
